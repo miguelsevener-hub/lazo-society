@@ -1,6 +1,6 @@
 # Lazo Society · web 2.0
 
-Next.js 16 + Supabase, desplegada en Netlify desde GitHub. DNS en Cloudflare.
+Next.js 16 + Supabase, desplegada en Netlify desde GitHub. Dominio y DNS en GoDaddy.
 
 ## Qué hay
 
@@ -23,12 +23,13 @@ La lógica del test está en `lib/test.ts` y las preguntas en `lib/preguntas.ts`
 3. **Netlify:** Add new site → Import from GitHub → `lazo-society`. Netlify detecta Next.js solo.
    En Site settings → Environment variables, añadir las de `.env.example`:
    `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (secreta) y `NEXT_PUBLIC_SITE_URL=https://lazosociety.com`.
-4. **Cloudflare (DNS):**
-   - Add a site → `lazosociety.com` → plan Free. Cloudflare copia los registros que haya en GoDaddy.
-   - En GoDaddy → Dominio → Nameservers → "Usar los míos" → poner los dos nameservers que da Cloudflare.
-   - En Cloudflare → DNS: `CNAME @ → <tu-sitio>.netlify.app` y `CNAME www → <tu-sitio>.netlify.app`, con la nube en gris (solo DNS).
-   - En Netlify → Domain management → añadir `lazosociety.com` y `www.lazosociety.com`. El HTTPS se activa solo.
-   - Antes de cambiar los nameservers, comprobar en GoDaddy si hay registros MX (correo) y que Cloudflare los ha copiado.
+4. **Dominio (se queda en GoDaddy, sin Cloudflare):**
+   - En Netlify → Domain management → Add domain → `lazosociety.com` (y `www.lazosociety.com`). Marcar `www` como dominio principal.
+   - En GoDaddy → Dominio → DNS, cambiar solo estos dos registros:
+     - `A` con nombre `@` → `75.2.60.5` (el balanceador de Netlify). Borrar cualquier otro registro `A` de `@`.
+     - `CNAME` con nombre `www` → `lazosociety.netlify.app`.
+   - No tocar los registros `MX` ni `TXT` (correo y verificaciones).
+   - El HTTPS lo activa Netlify solo cuando los registros se propagan (de minutos a un día).
 
 ## Seguridad y datos
 
