@@ -19,7 +19,7 @@ La lógica del test está en `lib/test.ts` y las preguntas en `lib/preguntas.ts`
 ## Puesta en marcha
 
 1. **GitHub:** crear el repositorio `lazo-society` (privado) y subir esta carpeta.
-2. **Supabase:** en el proyecto, SQL Editor → pegar y ejecutar `supabase/migrations/0001_inicio.sql`.
+2. **Supabase:** las tablas ya están creadas en el esquema `lazo` del proyecto existente, aisladas de lo demás (se borra entero con `drop schema lazo cascade;`). Falta un paso: Project Settings → Data API → Exposed schemas → añadir `lazo`.
 3. **Netlify:** Add new site → Import from GitHub → `lazo-society`. Netlify detecta Next.js solo.
    En Site settings → Environment variables, añadir las de `.env.example`:
    `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (secreta) y `NEXT_PUBLIC_SITE_URL=https://lazosociety.com`.
