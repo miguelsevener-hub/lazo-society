@@ -36,16 +36,14 @@ export function Formulario() {
       <label htmlFor="codigo">Código de vuestro wedding planner (opcional)</label>
       <input id="codigo" name="codigo" />
 
-      <div className="tarjeta" style={{ marginTop: 28 }}>
-        <p style={{ margin: 0, color: "var(--suave)" }}>{solteros ? "Con" : "Calculamos unos"} {cuenta} solteros</p>
-        <p style={{ margin: "4px 0 0", fontSize: "1.6rem", color: "var(--medianoche)" }}>
-          Pack {pack.nombre} · {pack.desde ? "desde " : ""}{euros(pack.precio)}
-        </p>
-        <p style={{ margin: "6px 0 0", fontSize: "0.9rem", color: "var(--suave)" }}>Precio cerrado. Si al final hay algún soltero más, la cesta de chapas sueltas lo cubre.</p>
+      <div className="resumen-pack" aria-live="polite">
+        <p className="suave" style={{ margin: 0 }}>{solteros ? "Con" : "Calculamos unos"} {cuenta} solteros</p>
+        <p className="grande">Pack {pack.nombre}, {pack.desde ? "desde " : ""}{euros(pack.precio)}</p>
+        <p className="suave" style={{ margin: 0, fontSize: "0.95rem" }}>Precio cerrado. Si al final hay algún soltero más, la cesta de chapas sueltas lo cubre.</p>
       </div>
       {estado.error && <p className="error" style={{ marginTop: 16 }}>{estado.error}</p>}
       <p style={{ marginTop: 24 }}><button className="boton" disabled={enviando}>{enviando ? "Enviando…" : "Pedir Lazo"}</button></p>
-      <p style={{ fontSize: "0.85rem", color: "var(--suave)" }}>Todavía no cobramos online: os escribimos para confirmar el pedido.</p>
+      <p className="suave" style={{ fontSize: "0.92rem" }}>Todavía no cobramos online: os escribimos para confirmar el pedido.</p>
     </form>
   );
 }

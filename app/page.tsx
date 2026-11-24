@@ -1,57 +1,81 @@
 import Link from "next/link";
-import { Animales } from "@/components/Animales";
+import { ChapaPortada } from "@/components/ChapaPortada";
+import { Espejos } from "@/components/Espejos";
+import { Chapa } from "@/components/Chapa";
 import { PACKS, euros } from "@/lib/precio";
+
+function rango(i: number) {
+  const p = PACKS[i];
+  if (i === 0) return `hasta ${p.hasta} solteros`;
+  if (p.hasta === null) return `más de ${PACKS[i - 1].hasta} solteros`;
+  return `de ${PACKS[i - 1].hasta! + 1} a ${p.hasta} solteros`;
+}
 
 export default function Portada() {
   return (
     <main>
-      <section className="contenedor" style={{ padding: "96px 24px 72px", textAlign: "center" }}>
-        <h1 className="marca">Lazo Society</h1>
-        <p className="voz" style={{ fontSize: "1.6rem", marginTop: 8 }}>Wear your type™</p>
-        <p className="serifa" style={{ maxWidth: 520, margin: "32px auto" }}>
-          Recuperamos el arte de los encuentros reales. Sin pantallas, sin prisas y con una copa en la mano.
-          Un juego para los solteros de tu boda: seis animales, una chapa y ninguna app.
-        </p>
-        <Link className="boton" href="/pedir">Lazo para mi boda</Link>
-        <p style={{ marginTop: 16 }}><Link href="/test">O descubre tu animal →</Link></p>
+      <section className="portada">
+        <div className="portada-interior marco">
+          <ChapaPortada />
+          <h1 className="lema">Wear your type<sup>™</sup></h1>
+          <p className="bajada">Un juego para los solteros de tu boda. Seis animales, una chapa y ninguna app.</p>
+          <div className="portada-acciones">
+            <Link className="boton" href="/pedir">Lazo para mi boda</Link>
+            <Link className="enlace" href="/test">Descubrir mi animal</Link>
+          </div>
+        </div>
       </section>
 
-      <section className="seccion">
-        <div className="contenedor">
-          <h2>Cómo funciona</h2>
+      <section className="bloque manifiesto">
+        <div className="marco">
+          <p>Recuperamos el arte de los encuentros reales.</p>
+          <p>Sin pantallas, sin prisas y con una copa en la mano.</p>
+          <p className="voz">Si pasa algo, diremos que fue el destino. Si no, al menos tienes una chapa bonita.</p>
+        </div>
+      </section>
+
+      <section className="bloque">
+        <div className="marco">
+          <h2 className="titular">Seis animales. Cada uno busca a otro.</h2>
+          <Espejos />
+        </div>
+      </section>
+
+      <section className="bloque">
+        <div className="marco">
+          <h2 className="titular">Cómo funciona</h2>
           <ol className="pasos">
-            <li><div><strong>Pedís Lazo.</strong> En dos minutos, con el número de invitados y poco más. Se crea la página de vuestra boda.</div></li>
-            <li><div><strong>Los solteros hacen el test.</strong> Diecisiete preguntas. Su animal queda guardado en secreto.</div></li>
-            <li><div><strong>En la boda, cada uno abre su sobre.</strong> Dentro, su chapa y a quién buscar. Lo demás lo pone la barra libre.</div></li>
+            <li><div><h3>Pedís Lazo</h3><p>En dos minutos, con el número de invitados y poco más. Se crea la página de vuestra boda.</p></div></li>
+            <li><div><h3>Los solteros hacen el test</h3><p>Diecisiete preguntas. Su animal queda guardado en secreto, en un sobre con su nombre.</p></div></li>
+            <li><div><h3>En la boda, todos abren su sobre a la vez</h3><p>Dentro está su chapa y a quién buscar. Lo demás lo pone la barra libre.</p></div></li>
           </ol>
-          <p className="voz" style={{ marginTop: 28, fontSize: "1.25rem" }}>Si pasa algo, diremos que fue el destino. Si no, al menos tienes una chapa bonita.</p>
+          <p className="remate voz">Esta boda es un experimento social con barra libre.</p>
         </div>
       </section>
 
-      <section className="seccion">
-        <div className="ancho">
-          <h2>Seis animales. Dos preguntas: cómo amas y qué buscas.</h2>
-          <Animales />
-        </div>
+      <section className="bloque">
+        <div className="marco"><div className="columna">
+          <h2 className="titular">Un precio por boda</h2>
+          <ul className="packs">
+            {PACKS.map((p, i) => (
+              <li key={p.id}>
+                <span className="nombre">{p.nombre}</span>
+                <span className="solteros">{rango(i)}</span>
+                <span className="precio">{p.desde ? "desde " : ""}{euros(p.precio)}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="packs-nota">Todo incluido: la página de la boda, el test, los sobres con nombre, las chapas, la cesta de chapas sueltas, el cartel y el envío.</p>
+        </div></div>
       </section>
 
-      <section className="seccion">
-        <div className="contenedor">
-          <h2>Un precio por boda</h2>
-          <table className="packs">
-            <thead><tr><th>Pack</th><th>Solteros</th><th>Precio</th></tr></thead>
-            <tbody>
-              {PACKS.map((p, i) => (
-                <tr key={p.id}>
-                  <td>{p.nombre}</td>
-                  <td>{p.hasta === null ? `Más de ${PACKS[i - 1].hasta}` : i === 0 ? `Hasta ${p.hasta}` : `${PACKS[i - 1].hasta! + 1}–${p.hasta}`}</td>
-                  <td>{p.desde ? "Desde " : ""}{euros(p.precio)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p style={{ marginTop: 14, color: "var(--suave)" }}>Todo incluido: página y test, sobres con nombre, chapas, cesta de chapas sueltas, cartel y envío.</p>
-          <p style={{ marginTop: 24 }}><Link className="boton" href="/pedir">Calcular mi pack</Link></p>
+      <section className="bloque cierre-final">
+        <div className="marco">
+          <div className="cesta" aria-hidden>
+            {(["lobo", "ciervo", "caballo", "cisne", "halcon", "lince"] as const).map((a) => <Chapa key={a} animal={a} tam="clamp(84px, 13vw, 132px)" viva />)}
+          </div>
+          <p className="lema">¿Os casáis?</p>
+          <Link className="boton" href="/pedir">Calcular mi pack</Link>
         </div>
       </section>
     </main>

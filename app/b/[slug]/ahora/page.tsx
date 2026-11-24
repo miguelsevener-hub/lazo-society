@@ -9,8 +9,8 @@ export default async function Pagina({ params }: { params: Promise<{ slug: strin
   const boda = await bodaPorSlug(slug);
   if (!boda) notFound();
   return (
-    <main className="contenedor" style={{ padding: "64px 24px" }}>
+    <main className="hoja"><div className="marco">
       <Test modo="en_la_boda" slug={boda.slug} novios={boda.novios} />
-    </main>
+    </div></main>
   );
 }
